@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:movie_listing_app/pages/popular_page.dart';
+import 'package:movie_listing_app/pages/search_page.dart';
 import 'package:movie_listing_app/pages/top_rated_page.dart';
 
 class HomeNavigation extends StatefulWidget {
@@ -12,7 +13,11 @@ class HomeNavigation extends StatefulWidget {
 class _HomeNavigationState extends State<HomeNavigation> {
   int _selectedIndex = 0;
 
-  final List<Widget> _pages = const [PopularPage(), TopRatedPage()];
+  final List<Widget> _pages = const [
+    PopularPage(),
+    TopRatedPage(),
+    SearchPage(),
+  ];
 
   void _onItemTapped(int index) {
     setState(() {
@@ -36,6 +41,7 @@ class _HomeNavigationState extends State<HomeNavigation> {
             label: 'Popular',
           ),
           BottomNavigationBarItem(icon: Icon(Icons.star), label: 'Top Rated'),
+          BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Search'),
         ],
       ),
     );
