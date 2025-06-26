@@ -26,9 +26,9 @@ class _PopularPageState extends State<PopularPage> {
         future: popularMovies,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator(
-              color: Colors.black87,
-            ));
+            return const Center(
+              child: CircularProgressIndicator(color: Colors.black87),
+            );
           }
 
           if (snapshot.hasError) {
@@ -55,6 +55,7 @@ class _PopularPageState extends State<PopularPage> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     _getRatingIcon(movie.rating),
+                    SizedBox(width: 4.0),
                     Text("${movie.rating.toStringAsFixed(1)} - TMDb"),
                   ],
                 ),

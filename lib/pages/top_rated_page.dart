@@ -55,6 +55,7 @@ class _TopRatedPageState extends State<TopRatedPage> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     _getRatingIcon(movie.rating),
+                    SizedBox(width: 4.0),
                     Text("${movie.rating.toStringAsFixed(1)} - TMDb"),
                   ],
                 ),
