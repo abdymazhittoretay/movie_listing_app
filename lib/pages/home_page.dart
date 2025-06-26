@@ -53,8 +53,7 @@ class _HomePageState extends State<HomePage> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     _getRatingIcon(movie.rating),
-                    const SizedBox(width: 4),
-                    Text(movie.rating.toStringAsFixed(1)),
+                    Text("${movie.rating.toStringAsFixed(1)} - TMDb"),
                   ],
                 ),
               );
