@@ -1,7 +1,10 @@
 import 'dart:convert';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import '../models/movie_model.dart';
+
+final ValueNotifier<ApiService> apiService = ValueNotifier(ApiService());
 
 class ApiService {
   final String _apiKey = dotenv.env['TMDB_API_KEY'] ?? 'default_key';
