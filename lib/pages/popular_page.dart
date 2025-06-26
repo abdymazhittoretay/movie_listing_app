@@ -10,6 +10,7 @@ class PopularPage extends StatelessWidget {
     return MovieCategoryPage(
       title: "Popular Movies",
       fetchMovies: apiService.value.getPopularMovies(),
+      icon: Icon(Icons.trending_up),
     );
   }
 }

@@ -4,11 +4,13 @@ import 'package:movie_listing_app/models/movie_model.dart';
 class MovieCategoryPage extends StatefulWidget {
   final String title;
   final Future<List<MovieModel>> fetchMovies;
+  final Icon icon;
 
   const MovieCategoryPage({
     super.key,
     required this.title,
     required this.fetchMovies,
+    required this.icon,
   });
 
   @override
@@ -27,7 +29,14 @@ class _MovieCategoryPageState extends State<MovieCategoryPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(widget.title)),
+      appBar: AppBar(
+        title: Row(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [widget.icon, SizedBox(width: 8.0), Text(widget.title)],
+        ),
+        centerTitle: true,
+      ),
       body: FutureBuilder<List<MovieModel>>(
         future: _fetchedMovies,
         builder: (context, snapshot) {

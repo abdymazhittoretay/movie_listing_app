@@ -10,6 +10,7 @@ class TopRatedPage extends StatelessWidget {
     return MovieCategoryPage(
       title: "Top Rated Movies",
       fetchMovies: apiService.value.getTopRatedMovies(),
+      icon: Icon(Icons.star),
     );
   }
 }
