@@ -49,12 +49,28 @@ class _HomePageState extends State<HomePage> {
               final MovieModel movie = movies[index];
               return ListTile(
                 title: Text(movie.title),
-                subtitle: Text(movie.rating.toStringAsFixed(1)),
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    _getRatingIcon(movie.rating),
+                    Text(movie.rating.toStringAsFixed(1)),
+                  ],
+                ),
               );
             },
           );
         },
       ),
     );
+  }
+
+  Icon _getRatingIcon(double rating) {
+    if (rating >= 8.0) {
+      return const Icon(Icons.star, color: Colors.green);
+    } else if (rating >= 5.0) {
+      return const Icon(Icons.star_half, color: Colors.amber);
+    } else {
+      return const Icon(Icons.star_border, color: Colors.red);
+    }
   }
 }
