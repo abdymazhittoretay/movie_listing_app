@@ -1,5 +1,3 @@
-// providers/movie_provider.dart
-
 import 'package:flutter/material.dart';
 import '../models/movie_model.dart';
 import '../services/api_service.dart';
