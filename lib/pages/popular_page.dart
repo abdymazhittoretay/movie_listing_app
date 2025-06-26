@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:movie_listing_app/models/movie_model.dart';
 import 'package:movie_listing_app/services/api_service.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class PopularPage extends StatefulWidget {
+  const PopularPage({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<PopularPage> createState() => _PopularPageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _PopularPageState extends State<PopularPage> {
   late Future<List<MovieModel>> popularMovies;
 
   @override
