@@ -26,7 +26,9 @@ class _PopularPageState extends State<PopularPage> {
         future: popularMovies,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator(
+              color: Colors.black87,
+            ));
           }
 
           if (snapshot.hasError) {

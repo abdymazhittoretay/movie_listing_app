@@ -26,7 +26,9 @@ class _TopRatedPageState extends State<TopRatedPage> {
         future: topRatedMovies,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
+            return const Center(
+              child: CircularProgressIndicator(color: Colors.black87),
+            );
           }
 
           if (snapshot.hasError) {
