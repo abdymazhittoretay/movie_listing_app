@@ -1,9 +1,10 @@
 import 'dart:convert';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import '../models/movie_model.dart';
 
 class ApiService {
-  static const String _apiKey = 'YOUR_API_KEY';
+  final String _apiKey = dotenv.env['TMDB_API_KEY'] ?? 'default_key';
   static const String _baseUrl = 'https://api.themoviedb.org/3';
 
   Future<List<MovieModel>> getPopularMovies() async {
