@@ -1,3 +1,5 @@
+// providers/movie_provider.dart
+
 import 'package:flutter/material.dart';
 import '../models/movie_model.dart';
 import '../services/api_service.dart';
@@ -10,38 +12,50 @@ class MovieProvider with ChangeNotifier {
   List<MovieModel> _searchResults = [];
 
   bool _isLoading = false;
+  String? _errorMessage;
 
   List<MovieModel> get popularMovies => _popularMovies;
   List<MovieModel> get topRatedMovies => _topRatedMovies;
   List<MovieModel> get searchResults => _searchResults;
   bool get isLoading => _isLoading;
+  String? get errorMessage => _errorMessage;
+
+  void _setLoading(bool value) {
+    _isLoading = value;
+    notifyListeners();
+  }
+
+  void _setError(String? message) {
+    _errorMessage = message;
+    notifyListeners();
+  }
 
   Future<void> fetchPopularMovies() async {
-    _isLoading = true;
-    notifyListeners();
+    _setLoading(true);
+    _setError(null);
 
     try {
       _popularMovies = await _apiService.getPopularMovies();
     } catch (e) {
-      print('Error fetching popular movies: $e');
+      _setError('Failed to load popular movies. Please check your internet.');
+      print('Error: $e');
     }
 
-    _isLoading = false;
-    notifyListeners();
+    _setLoading(false);
   }
 
   Future<void> fetchTopRatedMovies() async {
-    _isLoading = true;
-    notifyListeners();
+    _setLoading(true);
+    _setError(null);
 
     try {
       _topRatedMovies = await _apiService.getTopRatedMovies();
     } catch (e) {
-      print('Error fetching top-rated movies: $e');
+      _setError('Failed to load top-rated movies.');
+      print('Error: $e');
     }
 
-    _isLoading = false;
-    notifyListeners();
+    _setLoading(false);
   }
 
   Future<void> searchMovies(String query) async {
@@ -51,21 +65,22 @@ class MovieProvider with ChangeNotifier {
       return;
     }
 
-    _isLoading = true;
-    notifyListeners();
+    _setLoading(true);
+    _setError(null);
 
     try {
       _searchResults = await _apiService.searchMovies(query);
     } catch (e) {
-      print('Error searching movies: $e');
+      _setError('Search failed. Try again later.');
+      print('Error: $e');
     }
 
-    _isLoading = false;
-    notifyListeners();
+    _setLoading(false);
   }
 
   void clearSearch() {
     _searchResults = [];
+    _setError(null);
     notifyListeners();
   }
 }
