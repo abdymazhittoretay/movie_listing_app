@@ -26,8 +26,8 @@ class MovieDetailPage extends StatelessWidget {
           padding: const EdgeInsets.only(
             left: 16.0,
             right: 16.0,
-            bottom: 64.0,
             top: 16.0,
+            bottom: 8.0,
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -91,6 +91,12 @@ class MovieDetailPage extends StatelessWidget {
                 textAlign: TextAlign.justify,
                 movie.overview.isNotEmpty ? movie.overview : "No description.",
                 style: const TextStyle(fontSize: 18.0),
+              ),
+              const SizedBox(height: 32.0),
+              Text(
+                "Thanks to The Movie Database (TMDb) for the data.",
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 14, color: Colors.grey[600]),
               ),
             ],
           ),
