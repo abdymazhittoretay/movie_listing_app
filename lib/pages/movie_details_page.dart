@@ -36,20 +36,26 @@ class MovieDetailPage extends StatelessWidget {
                 child: Image.network(
                   movie.fullPosterUrl,
                   fit: BoxFit.cover,
+                  errorBuilder: (context, error, stackTrace) => SizedBox(
+                    width: 150,
+                    height: 150,
+                    child: Center(
+                      child: Icon(
+                        Icons.image_not_supported_outlined,
+                        size: 150,
+                      ),
+                    ),
+                  ),
                   loadingBuilder: (context, child, loadingProgress) {
                     if (loadingProgress == null) return child;
-
-                    return Center(
-                      child: CircularProgressIndicator(
-                        value: loadingProgress.expectedTotalBytes != null
-                            ? loadingProgress.cumulativeBytesLoaded /
-                                  loadingProgress.expectedTotalBytes!
-                            : null,
+                    return SizedBox(
+                      width: 300,
+                      height: 600,
+                      child: Center(
+                        child: CircularProgressIndicator(strokeWidth: 2),
                       ),
                     );
                   },
-                  errorBuilder: (context, error, stackTrace) =>
-                      const Icon(Icons.broken_image, size: 100),
                 ),
               ),
               const SizedBox(height: 16.0),
