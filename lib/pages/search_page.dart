@@ -15,7 +15,12 @@ class _SearchPageState extends State<SearchPage> {
   Future<List<MovieModel>>? _searchResults;
 
   void _performSearch(String query) {
-    if (query.isEmpty) return;
+    if (query.trim().isEmpty) {
+      setState(() {
+        _searchResults = null;
+      });
+      return;
+    }
     setState(() {
       _searchResults = apiService.value.searchMovies(query);
     });
