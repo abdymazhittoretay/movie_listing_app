@@ -55,7 +55,7 @@ class MovieDetailPage extends StatelessWidget {
               ),
               const SizedBox(height: 16.0),
               Text(
-                movie.title,
+                "${movie.title}${movie.releaseDate.isNotEmpty ? ", ${movie.releaseDate.substring(0, 4)}" : ""}",
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   fontSize: 24,
