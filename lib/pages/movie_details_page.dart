@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:movie_listing_app/models/movie_model.dart';
 import 'package:movie_listing_app/utils/rating_utils.dart';
@@ -34,33 +35,24 @@ class MovieDetailPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Center(
-                    child: Image.network(
-                      movie.fullPosterUrl,
+                    child: CachedNetworkImage(
+                      imageUrl: movie.fullPosterUrl,
                       fit: BoxFit.cover,
-                      errorBuilder: (context, error, stackTrace) =>
-                          const SizedBox(
-                            width: 150,
-                            height: 150,
-                            child: Icon(
-                              Icons.image_not_supported_outlined,
-                              size: 80,
-                            ),
-                          ),
-                      loadingBuilder: (context, child, loadingProgress) {
-                        if (loadingProgress == null) return child;
-                        return SizedBox(
-                          width: 150,
-                          height: 220,
-                          child: Center(
-                            child: CircularProgressIndicator(
-                              value: loadingProgress.expectedTotalBytes != null
-                                  ? loadingProgress.cumulativeBytesLoaded /
-                                        loadingProgress.expectedTotalBytes!
-                                  : null,
-                            ),
-                          ),
-                        );
-                      },
+                      placeholder: (context, url) => const SizedBox(
+                        width: 150,
+                        height: 220,
+                        child: Center(
+                          child: CircularProgressIndicator(color: Colors.black),
+                        ),
+                      ),
+                      errorWidget: (context, url, error) => const SizedBox(
+                        width: 150,
+                        height: 220,
+                        child: Icon(
+                          Icons.image_not_supported_outlined,
+                          size: 80,
+                        ),
+                      ),
                     ),
                   ),
                   const SizedBox(height: 16.0),

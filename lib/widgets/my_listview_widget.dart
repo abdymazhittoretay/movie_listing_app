@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:movie_listing_app/models/movie_model.dart';
 import 'package:movie_listing_app/pages/movie_details_page.dart';
@@ -33,12 +34,24 @@ class MyListviewWidget extends StatelessWidget {
               children: [
                 ClipRRect(
                   borderRadius: BorderRadius.circular(8.0),
-                  child: Image.network(
-                    movie.fullPosterUrl,
+                  child: CachedNetworkImage(
+                    imageUrl: movie.fullPosterUrl,
                     width: 80,
                     height: 120,
                     fit: BoxFit.cover,
-                    errorBuilder: (context, error, stackTrace) => SizedBox(
+                    placeholder: (context, url) {
+                      return SizedBox(
+                        width: 80,
+                        height: 120,
+                        child: Center(
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            color: Colors.black,
+                          ),
+                        ),
+                      );
+                    },
+                    errorWidget: (context, url, error) => SizedBox(
                       width: 80,
                       height: 120,
                       child: Center(
@@ -48,16 +61,6 @@ class MyListviewWidget extends StatelessWidget {
                         ),
                       ),
                     ),
-                    loadingBuilder: (context, child, loadingProgress) {
-                      if (loadingProgress == null) return child;
-                      return SizedBox(
-                        width: 80,
-                        height: 120,
-                        child: Center(
-                          child: CircularProgressIndicator(strokeWidth: 2),
-                        ),
-                      );
-                    },
                   ),
                 ),
                 const SizedBox(width: 12),
