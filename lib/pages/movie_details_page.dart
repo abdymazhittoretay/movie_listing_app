@@ -9,6 +9,9 @@ class MovieDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final double screenHeight = MediaQuery.of(context).size.height;
+    final double appBarHeight = kToolbarHeight;
+
     return Scaffold(
       appBar: AppBar(
         title: Row(
@@ -23,88 +26,100 @@ class MovieDetailPage extends StatelessWidget {
       ),
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.only(
-            left: 16.0,
-            right: 16.0,
-            top: 16.0,
-            bottom: 8.0,
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Center(
-                child: Image.network(
-                  movie.fullPosterUrl,
-                  fit: BoxFit.cover,
-                  errorBuilder: (context, error, stackTrace) => SizedBox(
-                    width: 150,
-                    height: 150,
-                    child: Center(
-                      child: Icon(
-                        Icons.image_not_supported_outlined,
-                        size: 150,
-                      ),
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
+          child: ConstrainedBox(
+            constraints: BoxConstraints(minHeight: screenHeight - appBarHeight),
+            child: IntrinsicHeight(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Center(
+                    child: Image.network(
+                      movie.fullPosterUrl,
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) =>
+                          const SizedBox(
+                            width: 150,
+                            height: 150,
+                            child: Icon(
+                              Icons.image_not_supported_outlined,
+                              size: 80,
+                            ),
+                          ),
+                      loadingBuilder: (context, child, loadingProgress) {
+                        if (loadingProgress == null) return child;
+                        return SizedBox(
+                          width: 150,
+                          height: 220,
+                          child: Center(
+                            child: CircularProgressIndicator(
+                              value: loadingProgress.expectedTotalBytes != null
+                                  ? loadingProgress.cumulativeBytesLoaded /
+                                        loadingProgress.expectedTotalBytes!
+                                  : null,
+                            ),
+                          ),
+                        );
+                      },
                     ),
                   ),
-                  loadingBuilder: (context, child, loadingProgress) {
-                    if (loadingProgress == null) return child;
-                    return SizedBox(
-                      width: 300,
-                      height: 600,
-                      child: Center(
-                        child: CircularProgressIndicator(strokeWidth: 2),
-                      ),
-                    );
-                  },
-                ),
-              ),
-              const SizedBox(height: 16.0),
-              Text(
-                "${movie.title}${movie.releaseDate.isNotEmpty ? ", ${movie.releaseDate.substring(0, 4)}" : ""}",
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 8.0),
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  getRatingIcon(movie.rating),
-                  const SizedBox(width: 8),
+                  const SizedBox(height: 16.0),
                   Text(
-                    '${movie.rating.toStringAsFixed(1)} / 10 - TMDb',
-                    style: const TextStyle(fontSize: 16),
-                  ),
-                ],
-              ),
-              const Divider(height: 32.0, thickness: 1.3, color: Colors.black),
-              Row(
-                children: [
-                  Text(
-                    "Description:",
+                    "${movie.title}${movie.releaseDate.isNotEmpty ? ", ${movie.releaseDate.substring(0, 4)}" : ""}",
+                    textAlign: TextAlign.center,
                     style: const TextStyle(
-                      fontSize: 20.0,
+                      fontSize: 24,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
+                  const SizedBox(height: 8.0),
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      getRatingIcon(movie.rating),
+                      const SizedBox(width: 8),
+                      Text(
+                        '${movie.rating.toStringAsFixed(1)} / 10 - TMDb',
+                        style: const TextStyle(fontSize: 16),
+                      ),
+                    ],
+                  ),
+                  const Divider(
+                    height: 32.0,
+                    thickness: 1.3,
+                    color: Colors.black,
+                  ),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      "Description:",
+                      style: const TextStyle(
+                        fontSize: 20.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 8.0),
+                  Text(
+                    movie.overview.isNotEmpty
+                        ? movie.overview
+                        : "No description.",
+                    textAlign: TextAlign.justify,
+                    style: const TextStyle(fontSize: 18.0),
+                  ),
+
+                  const Spacer(),
+
+                  const SizedBox(height: 16.0),
+                  Text(
+                    "Thanks to The Movie Database (TMDb) for the data.",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 14, color: Colors.grey[600]),
+                  ),
                 ],
               ),
-              const SizedBox(height: 8.0),
-              Text(
-                textAlign: TextAlign.justify,
-                movie.overview.isNotEmpty ? movie.overview : "No description.",
-                style: const TextStyle(fontSize: 18.0),
-              ),
-              const SizedBox(height: 32.0),
-              Text(
-                "Thanks to The Movie Database (TMDb) for the data.",
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 14, color: Colors.grey[600]),
-              ),
-            ],
+            ),
           ),
         ),
       ),
