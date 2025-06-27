@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:movie_listing_app/models/movie_model.dart';
+import 'package:movie_listing_app/utils/rating_utils.dart';
 
 class MovieDetailPage extends StatelessWidget {
   final MovieModel movie;
@@ -66,7 +67,7 @@ class MovieDetailPage extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  _getRatingIcon(movie.rating),
+                  getRatingIcon(movie.rating),
                   const SizedBox(width: 8),
                   Text(
                     '${movie.rating.toStringAsFixed(1)} / 10 - TMDb',
@@ -97,15 +98,5 @@ class MovieDetailPage extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  Icon _getRatingIcon(double rating) {
-    if (rating >= 8.0) {
-      return const Icon(Icons.star, color: Colors.green);
-    } else if (rating >= 5.0) {
-      return const Icon(Icons.star_half, color: Colors.amber);
-    } else {
-      return const Icon(Icons.star_border, color: Colors.red);
-    }
   }
 }

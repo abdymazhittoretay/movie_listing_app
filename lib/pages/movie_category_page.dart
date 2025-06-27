@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:movie_listing_app/models/movie_model.dart';
 import 'package:movie_listing_app/pages/movie_details_page.dart';
+import 'package:movie_listing_app/utils/rating_utils.dart';
 
 class MovieCategoryPage extends StatefulWidget {
   final String title;
@@ -78,7 +79,7 @@ class _MovieCategoryPageState extends State<MovieCategoryPage> {
                 trailing: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    _getRatingIcon(movie.rating),
+                    getRatingIcon(movie.rating),
                     SizedBox(width: 4.0),
                     Text("${movie.rating.toStringAsFixed(1)} - TMDb"),
                   ],
@@ -89,15 +90,5 @@ class _MovieCategoryPageState extends State<MovieCategoryPage> {
         },
       ),
     );
-  }
-
-  Icon _getRatingIcon(double rating) {
-    if (rating >= 8.0) {
-      return const Icon(Icons.star, color: Colors.green);
-    } else if (rating >= 5.0) {
-      return const Icon(Icons.star_half, color: Colors.amber);
-    } else {
-      return const Icon(Icons.star_border, color: Colors.red);
-    }
   }
 }
