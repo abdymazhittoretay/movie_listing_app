@@ -13,11 +13,10 @@ class MovieDetailPage extends StatelessWidget {
       appBar: AppBar(
         title: Row(
           mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.movie),
-            SizedBox(width: 8.0),
-            Text(movie.title),
+            const Icon(Icons.movie),
+            const SizedBox(width: 8.0),
+            Flexible(child: Text(movie.title, overflow: TextOverflow.ellipsis)),
           ],
         ),
         centerTitle: true,
