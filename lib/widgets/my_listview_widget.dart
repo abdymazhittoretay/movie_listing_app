@@ -14,7 +14,7 @@ class MyListviewWidget extends StatelessWidget {
       itemCount: movies.length,
       itemBuilder: (context, index) {
         final MovieModel movie = movies[index];
-        return ListTile(
+        return InkWell(
           onTap: () {
             Navigator.push(
               context,
@@ -23,14 +23,65 @@ class MyListviewWidget extends StatelessWidget {
               ),
             );
           },
-          title: Text(movie.title),
-          trailing: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              getRatingIcon(movie.rating),
-              SizedBox(width: 4.0),
-              Text("${movie.rating.toStringAsFixed(1)} - TMDb"),
-            ],
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 12.0,
+              vertical: 8.0,
+            ),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(8.0),
+                  child: Image.network(
+                    movie.fullPosterUrl,
+                    width: 80,
+                    height: 120,
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) =>
+                        const Icon(Icons.broken_image, size: 80),
+                    loadingBuilder: (context, child, loadingProgress) {
+                      if (loadingProgress == null) return child;
+                      return SizedBox(
+                        width: 80,
+                        height: 120,
+                        child: Center(
+                          child: CircularProgressIndicator(strokeWidth: 2),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "${movie.title}${movie.releaseDate.isNotEmpty ? ", ${movie.releaseDate.substring(0, 4)}" : ""}",
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      const SizedBox(height: 6),
+                      Row(
+                        children: [
+                          getRatingIcon(movie.rating),
+                          const SizedBox(width: 4),
+                          Text(
+                            "${movie.rating.toStringAsFixed(1)} / 10",
+                            style: const TextStyle(fontSize: 14),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         );
       },
