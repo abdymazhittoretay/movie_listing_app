@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:movie_listing_app/models/movie_model.dart';
+import 'package:movie_listing_app/pages/movie_details_page.dart';
 
 class MovieCategoryPage extends StatefulWidget {
   final String title;
@@ -65,6 +66,14 @@ class _MovieCategoryPageState extends State<MovieCategoryPage> {
             itemBuilder: (context, index) {
               final MovieModel movie = movies[index];
               return ListTile(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => MovieDetailPage(movie: movie),
+                    ),
+                  );
+                },
                 title: Text(movie.title),
                 trailing: Row(
                   mainAxisSize: MainAxisSize.min,
