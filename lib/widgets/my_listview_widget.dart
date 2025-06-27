@@ -38,8 +38,16 @@ class MyListviewWidget extends StatelessWidget {
                     width: 80,
                     height: 120,
                     fit: BoxFit.cover,
-                    errorBuilder: (context, error, stackTrace) =>
-                        const Icon(Icons.broken_image, size: 80),
+                    errorBuilder: (context, error, stackTrace) => SizedBox(
+                      width: 80,
+                      height: 120,
+                      child: Center(
+                        child: Icon(
+                          Icons.image_not_supported_outlined,
+                          size: 80,
+                        ),
+                      ),
+                    ),
                     loadingBuilder: (context, child, loadingProgress) {
                       if (loadingProgress == null) return child;
                       return SizedBox(
