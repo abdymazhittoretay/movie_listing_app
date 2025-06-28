@@ -8,7 +8,7 @@ class WatchLaterPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final box = Hive.box<MovieModel>('favoritesBox');
+    final box = Hive.box<MovieModel>('watchLaterBox');
 
     return Scaffold(
       appBar: AppBar(

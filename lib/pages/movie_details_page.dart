@@ -20,7 +20,7 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
   @override
   void initState() {
     super.initState();
-    _favoritesBox = Hive.box<MovieModel>('favoritesBox');
+    _favoritesBox = Hive.box<MovieModel>('watchLaterBox');
     _isFavorite = _favoritesBox.containsKey(widget.movie.id);
   }
 

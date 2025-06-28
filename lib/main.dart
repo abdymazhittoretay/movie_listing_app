@@ -8,7 +8,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
   Hive.registerAdapter(MovieModelAdapter());
-  await Hive.openBox<MovieModel>('favoritesBox');
+  await Hive.openBox<MovieModel>('watchLaterBox');
   try {
     await dotenv.load(fileName: ".env");
   } catch (e) {
@@ -22,6 +22,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(debugShowCheckedModeBanner: false, home: HomeNavigation());
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: HomeNavigation(),
+    );
   }
 }
