@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/adapters.dart';
 import 'package:movie_listing_app/models/movie_model.dart';
 import 'package:movie_listing_app/services/api_service.dart';
 import 'package:movie_listing_app/widgets/bookmark_button.dart';
@@ -61,7 +62,20 @@ class _SearchPageState extends State<SearchPage> {
           ),
           Expanded(
             child: _searchResults == null
-                ? const Center(child: Text('Search for something...'))
+                ? ValueListenableBuilder(
+                    valueListenable: Hive.box<MovieModel>(
+                      'searchHistoryBox',
+                    ).listenable(),
+                    builder: (context, Box<MovieModel> box, _) {
+                      final movies = box.values.toList().reversed.toList();
+                      if (movies.isEmpty) {
+                        return const Center(
+                          child: Text('Search for something...'),
+                        );
+                      }
+                      return MyListviewWidget(movies: movies);
+                    },
+                  )
                 : FutureBuilder<List<MovieModel>>(
                     future: _searchResults,
                     builder: (context, snapshot) {
@@ -75,7 +89,20 @@ class _SearchPageState extends State<SearchPage> {
                       if (movies.isEmpty) {
                         return const Center(child: Text('No results found.'));
                       }
-                      return MyListviewWidget(movies: movies);
+                      return MyListviewWidget(
+                        movies: movies,
+                        onMovieTap: (MovieModel movie) {
+                          final box = Hive.box<MovieModel>('searchHistoryBox');
+
+                          final exists = box.values.any(
+                            (m) => m.id == movie.id,
+                          );
+                          if (!exists) {
+                            if (box.length >= 10) box.deleteAt(0);
+                            box.add(movie);
+                          }
+                        },
+                      );
                     },
                   ),
           ),

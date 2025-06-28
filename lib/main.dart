@@ -9,6 +9,7 @@ void main() async {
   await Hive.initFlutter();
   Hive.registerAdapter(MovieModelAdapter());
   await Hive.openBox<MovieModel>('watchLaterBox');
+  await Hive.openBox<MovieModel>('searchHistoryBox');
   try {
     await dotenv.load(fileName: ".env");
   } catch (e) {

@@ -5,9 +5,10 @@ import 'package:movie_listing_app/pages/movie_details_page.dart';
 import 'package:movie_listing_app/utils/rating_utils.dart';
 
 class MyListviewWidget extends StatelessWidget {
-  const MyListviewWidget({super.key, required this.movies});
+  const MyListviewWidget({super.key, required this.movies, this.onMovieTap});
 
   final List<MovieModel> movies;
+  final void Function(MovieModel)? onMovieTap;
 
   @override
   Widget build(BuildContext context) {
@@ -17,6 +18,9 @@ class MyListviewWidget extends StatelessWidget {
         final MovieModel movie = movies[index];
         return InkWell(
           onTap: () {
+            if (onMovieTap != null) {
+              onMovieTap!(movie);
+            }
             Navigator.push(
               context,
               MaterialPageRoute(
