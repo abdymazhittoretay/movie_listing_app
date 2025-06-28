@@ -16,6 +16,14 @@ class _SearchPageState extends State<SearchPage> {
   final TextEditingController _controller = TextEditingController();
   Future<List<MovieModel>>? _searchResults;
 
+  @override
+  void initState() {
+    super.initState();
+    _controller.addListener(() {
+      setState(() {});
+    });
+  }
+
   void _performSearch(String query) {
     if (query.trim().isEmpty) {
       setState(() {
@@ -54,6 +62,17 @@ class _SearchPageState extends State<SearchPage> {
               decoration: InputDecoration(
                 hintText: 'Search...',
                 prefixIcon: const Icon(Icons.search),
+                suffixIcon: _controller.text.isNotEmpty
+                    ? IconButton(
+                        icon: const Icon(Icons.clear),
+                        onPressed: () {
+                          _controller.clear();
+                          setState(() {
+                            _searchResults = null;
+                          });
+                        },
+                      )
+                    : null,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
