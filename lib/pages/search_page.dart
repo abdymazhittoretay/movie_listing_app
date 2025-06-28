@@ -62,19 +62,53 @@ class _SearchPageState extends State<SearchPage> {
           ),
           Expanded(
             child: _searchResults == null
-                ? ValueListenableBuilder(
-                    valueListenable: Hive.box<MovieModel>(
-                      'searchHistoryBox',
-                    ).listenable(),
-                    builder: (context, Box<MovieModel> box, _) {
-                      final movies = box.values.toList().reversed.toList();
-                      if (movies.isEmpty) {
-                        return const Center(
-                          child: Text('Search for something...'),
-                        );
-                      }
-                      return MyListviewWidget(movies: movies);
-                    },
+                ? Column(
+                    mainAxisSize: MainAxisSize.max,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        child: TextButton.icon(
+                          onPressed: () {
+                            final box = Hive.box<MovieModel>(
+                              'searchHistoryBox',
+                            );
+                            box.clear();
+                          },
+                          icon: const Icon(Icons.delete_outline),
+                          label: const Text(
+                            "Clear History",
+                            style: TextStyle(fontSize: 16.0),
+                          ),
+                          style: TextButton.styleFrom(
+                            padding: const EdgeInsets.all(8.0),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8.0),
+                            ),
+                            foregroundColor: Colors.redAccent.withRed(255),
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: ValueListenableBuilder(
+                          valueListenable: Hive.box<MovieModel>(
+                            'searchHistoryBox',
+                          ).listenable(),
+                          builder: (context, Box<MovieModel> box, _) {
+                            final movies = box.values
+                                .toList()
+                                .reversed
+                                .toList();
+                            if (movies.isEmpty) {
+                              return const Center(
+                                child: Text('Search for something...'),
+                              );
+                            }
+                            return MyListviewWidget(movies: movies);
+                          },
+                        ),
+                      ),
+                    ],
                   )
                 : FutureBuilder<List<MovieModel>>(
                     future: _searchResults,
