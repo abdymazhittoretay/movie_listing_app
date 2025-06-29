@@ -13,7 +13,7 @@ class BookmarkButtonActions extends StatelessWidget {
           MaterialPageRoute(builder: (context) => WatchLaterPage()),
         );
       },
-      icon: Icon(Icons.bookmark),
+      icon: Icon(Icons.bookmark, size: 30.0),
     );
   }
 }
