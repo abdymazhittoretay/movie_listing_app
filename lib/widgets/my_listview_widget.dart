@@ -5,36 +5,29 @@ import 'package:movie_listing_app/pages/movie_details_page.dart';
 import 'package:movie_listing_app/utils/rating_utils.dart';
 import 'package:movie_listing_app/widgets/watch_later_button.dart';
 
-class MyListviewWidget extends StatefulWidget {
+class MyListviewWidget extends StatelessWidget {
   const MyListviewWidget({super.key, required this.movies, this.onMovieTap});
 
   final List<MovieModel> movies;
   final void Function(MovieModel)? onMovieTap;
 
   @override
-  State<MyListviewWidget> createState() => _MyListviewWidgetState();
-}
-
-class _MyListviewWidgetState extends State<MyListviewWidget> {
-  @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      itemCount: widget.movies.length,
+      itemCount: movies.length,
       itemBuilder: (context, index) {
-        final MovieModel movie = widget.movies[index];
+        final MovieModel movie = movies[index];
         return InkWell(
           onTap: () {
-            if (widget.onMovieTap != null) {
-              widget.onMovieTap!(movie);
+            if (onMovieTap != null) {
+              onMovieTap!(movie);
             }
             Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (context) => MovieDetailPage(movie: movie),
               ),
-            ).then((_) {
-              setState(() {});
-            });
+            );
           },
           child: Padding(
             padding: const EdgeInsets.symmetric(
