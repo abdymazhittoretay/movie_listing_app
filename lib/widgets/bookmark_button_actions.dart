@@ -6,14 +6,17 @@ class BookmarkButtonActions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return IconButton(
-      onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => WatchLaterPage()),
-        );
-      },
-      icon: Icon(Icons.bookmark, size: 30.0),
+    return Padding(
+      padding: const EdgeInsets.only(right: 4.0),
+      child: IconButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => WatchLaterPage()),
+          );
+        },
+        icon: Icon(Icons.bookmark, size: 30.0),
+      ),
     );
   }
 }
