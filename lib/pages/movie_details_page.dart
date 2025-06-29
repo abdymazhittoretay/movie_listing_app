@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:movie_listing_app/models/movie_model.dart';
 import 'package:movie_listing_app/utils/rating_utils.dart';
 import 'package:movie_listing_app/widgets/watch_later_button.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class MovieDetailPage extends StatelessWidget {
   final MovieModel movie;
@@ -57,6 +58,35 @@ class MovieDetailPage extends StatelessWidget {
                             child: Icon(
                               Icons.image_not_supported_outlined,
                               size: 80,
+                            ),
+                          ),
+                        ),
+                        Align(
+                          alignment: Alignment.bottomLeft,
+                          child: IconButton(
+                            onPressed: () async {
+                              final url = Uri.parse(
+                                'https://www.themoviedb.org/movie/${movie.id}',
+                              );
+                              if (await canLaunchUrl(url)) {
+                                await launchUrl(
+                                  url,
+                                  mode: LaunchMode.externalApplication,
+                                );
+                              } else {
+                                if (context.mounted) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text('Could not launch URL'),
+                                    ),
+                                  );
+                                }
+                              }
+                            },
+                            icon: Icon(
+                              Icons.open_in_browser,
+                              size: 40.0,
+                              color: Colors.white,
                             ),
                           ),
                         ),
