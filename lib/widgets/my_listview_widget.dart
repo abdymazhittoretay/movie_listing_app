@@ -3,30 +3,38 @@ import 'package:flutter/material.dart';
 import 'package:movie_listing_app/models/movie_model.dart';
 import 'package:movie_listing_app/pages/movie_details_page.dart';
 import 'package:movie_listing_app/utils/rating_utils.dart';
+import 'package:movie_listing_app/widgets/watch_later_button.dart';
 
-class MyListviewWidget extends StatelessWidget {
+class MyListviewWidget extends StatefulWidget {
   const MyListviewWidget({super.key, required this.movies, this.onMovieTap});
 
   final List<MovieModel> movies;
   final void Function(MovieModel)? onMovieTap;
 
   @override
+  State<MyListviewWidget> createState() => _MyListviewWidgetState();
+}
+
+class _MyListviewWidgetState extends State<MyListviewWidget> {
+  @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      itemCount: movies.length,
+      itemCount: widget.movies.length,
       itemBuilder: (context, index) {
-        final MovieModel movie = movies[index];
+        final MovieModel movie = widget.movies[index];
         return InkWell(
           onTap: () {
-            if (onMovieTap != null) {
-              onMovieTap!(movie);
+            if (widget.onMovieTap != null) {
+              widget.onMovieTap!(movie);
             }
             Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (context) => MovieDetailPage(movie: movie),
               ),
-            );
+            ).then((_) {
+              setState(() {});
+            });
           },
           child: Padding(
             padding: const EdgeInsets.symmetric(
@@ -92,7 +100,16 @@ class MyListviewWidget extends StatelessWidget {
                           ),
                         ],
                       ),
-                      const SizedBox(height: 6),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          WatchLaterButton(
+                            movie: movie,
+                            color: Colors.black,
+                            size: 35.0,
+                          ),
+                        ],
+                      ),
                     ],
                   ),
                 ),

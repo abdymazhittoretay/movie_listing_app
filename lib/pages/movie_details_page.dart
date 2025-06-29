@@ -1,59 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
 import 'package:movie_listing_app/models/movie_model.dart';
 import 'package:movie_listing_app/utils/rating_utils.dart';
+import 'package:movie_listing_app/widgets/watch_later_button.dart';
 
-class MovieDetailPage extends StatefulWidget {
+class MovieDetailPage extends StatelessWidget {
   final MovieModel movie;
 
   const MovieDetailPage({super.key, required this.movie});
-
-  @override
-  State<MovieDetailPage> createState() => _MovieDetailPageState();
-}
-
-class _MovieDetailPageState extends State<MovieDetailPage> {
-  late Box<MovieModel> _favoritesBox;
-  bool _isFavorite = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _favoritesBox = Hive.box<MovieModel>('watchLaterBox');
-    _isFavorite = _favoritesBox.containsKey(widget.movie.id);
-  }
-
-  void _toggleFavorite() {
-    setState(() {
-      if (_isFavorite) {
-        _favoritesBox.delete(widget.movie.id);
-        ScaffoldMessenger.of(context)
-          ..hideCurrentSnackBar()
-          ..showSnackBar(
-            const SnackBar(
-              backgroundColor: Colors.black87,
-              content: Center(
-                child: Text("Removed from Watch Later", style: TextStyle()),
-              ),
-              duration: Duration(seconds: 1),
-            ),
-          );
-      } else {
-        _favoritesBox.put(widget.movie.id, widget.movie);
-        ScaffoldMessenger.of(context)
-          ..hideCurrentSnackBar()
-          ..showSnackBar(
-            const SnackBar(
-              backgroundColor: Colors.black87,
-              content: Center(child: Text("Added to Watch Later")),
-              duration: Duration(seconds: 1),
-            ),
-          );
-      }
-      _isFavorite = !_isFavorite;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -67,9 +21,7 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
           children: [
             const Icon(Icons.movie),
             const SizedBox(width: 8.0),
-            Flexible(
-              child: Text(widget.movie.title, overflow: TextOverflow.ellipsis),
-            ),
+            Flexible(child: Text(movie.title, overflow: TextOverflow.ellipsis)),
           ],
         ),
         centerTitle: true,
@@ -88,7 +40,7 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
                       alignment: Alignment.bottomCenter,
                       children: [
                         CachedNetworkImage(
-                          imageUrl: widget.movie.fullPosterUrl,
+                          imageUrl: movie.fullPosterUrl,
                           fit: BoxFit.cover,
                           placeholder: (context, url) => const SizedBox(
                             width: 150,
@@ -110,15 +62,10 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
                         ),
                         Align(
                           alignment: Alignment.bottomRight,
-                          child: IconButton(
-                            onPressed: _toggleFavorite,
-                            icon: Icon(
-                              _isFavorite
-                                  ? Icons.bookmark
-                                  : Icons.bookmark_add_outlined,
-                              color: Colors.white,
-                              size: 40.0,
-                            ),
+                          child: WatchLaterButton(
+                            movie: movie,
+                            color: Colors.white,
+                            size: 40.0,
                           ),
                         ),
                       ],
@@ -126,7 +73,7 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
                   ),
                   const SizedBox(height: 16.0),
                   Text(
-                    "${widget.movie.title}${widget.movie.releaseDate.isNotEmpty ? ", ${widget.movie.releaseDate.substring(0, 4)}" : ""}",
+                    "${movie.title}${movie.releaseDate.isNotEmpty ? ", ${movie.releaseDate.substring(0, 4)}" : ""}",
                     textAlign: TextAlign.center,
                     style: const TextStyle(
                       fontSize: 24,
@@ -138,10 +85,10 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
                     mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      getRatingIcon(widget.movie.rating),
+                      getRatingIcon(movie.rating),
                       const SizedBox(width: 8),
                       Text(
-                        '${widget.movie.rating.toStringAsFixed(1)} / 10 - TMDb',
+                        '${movie.rating.toStringAsFixed(1)} / 10 - TMDb',
                         style: const TextStyle(fontSize: 16),
                       ),
                     ],
@@ -163,8 +110,8 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
                   ),
                   const SizedBox(height: 8.0),
                   Text(
-                    widget.movie.overview.isNotEmpty
-                        ? widget.movie.overview
+                    movie.overview.isNotEmpty
+                        ? movie.overview
                         : "No description.",
                     textAlign: TextAlign.justify,
                     style: const TextStyle(fontSize: 18.0),

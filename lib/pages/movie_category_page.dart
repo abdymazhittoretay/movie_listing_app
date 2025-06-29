@@ -3,7 +3,7 @@ import 'package:movie_listing_app/models/movie_model.dart';
 import 'package:movie_listing_app/widgets/bookmark_button_actions.dart';
 import 'package:movie_listing_app/widgets/my_listview_widget.dart';
 
-class MovieCategoryPage extends StatefulWidget {
+class MovieCategoryPage extends StatelessWidget {
   final String title;
   final Future<List<MovieModel>> fetchMovies;
   final Icon icon;
@@ -16,32 +16,19 @@ class MovieCategoryPage extends StatefulWidget {
   });
 
   @override
-  State<MovieCategoryPage> createState() => _MovieCategoryPageState();
-}
-
-class _MovieCategoryPageState extends State<MovieCategoryPage> {
-  late Future<List<MovieModel>> _fetchedMovies;
-
-  @override
-  void initState() {
-    super.initState();
-    _fetchedMovies = widget.fetchMovies;
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Row(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [widget.icon, SizedBox(width: 8.0), Text(widget.title)],
+          children: [icon, SizedBox(width: 8.0), Text(title)],
         ),
         centerTitle: true,
         actions: [BookmarkButtonActions()],
       ),
       body: FutureBuilder<List<MovieModel>>(
-        future: _fetchedMovies,
+        future: fetchMovies,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
