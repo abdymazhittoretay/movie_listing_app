@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:movie_listing_app/models/movie_model.dart';
 import 'package:movie_listing_app/services/api_service.dart';
-import 'package:movie_listing_app/widgets/bookmark_button.dart';
+import 'package:movie_listing_app/widgets/bookmark_button_actions.dart';
 import 'package:movie_listing_app/widgets/my_listview_widget.dart';
 
 class SearchPage extends StatefulWidget {
@@ -50,7 +50,7 @@ class _SearchPageState extends State<SearchPage> {
           ],
         ),
         centerTitle: true,
-        actions: [BookmarkButton()],
+        actions: [BookmarkButtonActions()],
       ),
       body: Column(
         children: [

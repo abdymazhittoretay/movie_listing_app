@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:movie_listing_app/models/movie_model.dart';
-import 'package:movie_listing_app/widgets/bookmark_button.dart';
+import 'package:movie_listing_app/widgets/bookmark_button_actions.dart';
 import 'package:movie_listing_app/widgets/my_listview_widget.dart';
 
 class MovieCategoryPage extends StatefulWidget {
@@ -38,7 +38,7 @@ class _MovieCategoryPageState extends State<MovieCategoryPage> {
           children: [widget.icon, SizedBox(width: 8.0), Text(widget.title)],
         ),
         centerTitle: true,
-        actions: [BookmarkButton()],
+        actions: [BookmarkButtonActions()],
       ),
       body: FutureBuilder<List<MovieModel>>(
         future: _fetchedMovies,
