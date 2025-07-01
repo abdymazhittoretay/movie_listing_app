@@ -40,7 +40,7 @@ class WatchLaterButton extends StatelessWidget {
                   ),
                 );
             } else {
-              box.put(movie.id, movie);
+              box.put(movie.id, movie.copyWith(savedAt: DateTime.now()));
               ScaffoldMessenger.of(context)
                 ..hideCurrentSnackBar()
                 ..showSnackBar(

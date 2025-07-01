@@ -23,13 +23,14 @@ class MovieModelAdapter extends TypeAdapter<MovieModel> {
       posterPath: fields[3] as String,
       rating: fields[4] as double,
       releaseDate: fields[5] as String,
+      savedAt: fields[6] as DateTime?,
     );
   }
 
   @override
   void write(BinaryWriter writer, MovieModel obj) {
     writer
-      ..writeByte(6)
+      ..writeByte(7)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -41,7 +42,9 @@ class MovieModelAdapter extends TypeAdapter<MovieModel> {
       ..writeByte(4)
       ..write(obj.rating)
       ..writeByte(5)
-      ..write(obj.releaseDate);
+      ..write(obj.releaseDate)
+      ..writeByte(6)
+      ..write(obj.savedAt);
   }
 
   @override

@@ -29,8 +29,8 @@ class WatchLaterPage extends StatelessWidget {
           if (box.isEmpty) {
             return const Center(child: Text("No saved movies yet."));
           }
-
-          final movies = box.values.toList();
+          final movies = box.values.where((m) => m.savedAt != null).toList()
+            ..sort((a, b) => b.savedAt!.compareTo(a.savedAt!));
 
           return MyListviewWidget(movies: movies);
         },

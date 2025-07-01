@@ -22,6 +22,9 @@ class MovieModel {
   @HiveField(5)
   final String releaseDate;
 
+  @HiveField(6)
+  final DateTime? savedAt;
+
   MovieModel({
     required this.id,
     required this.title,
@@ -29,6 +32,7 @@ class MovieModel {
     required this.posterPath,
     required this.rating,
     required this.releaseDate,
+    this.savedAt,
   });
 
   factory MovieModel.fromJson(Map<String, dynamic> json) {
@@ -43,4 +47,24 @@ class MovieModel {
   }
 
   String get fullPosterUrl => 'https://image.tmdb.org/t/p/w500$posterPath';
+
+  MovieModel copyWith({
+    int? id,
+    String? title,
+    String? overview,
+    String? posterPath,
+    double? rating,
+    String? releaseDate,
+    DateTime? savedAt,
+  }) {
+    return MovieModel(
+      id: id ?? this.id,
+      title: title ?? this.title,
+      overview: overview ?? this.overview,
+      posterPath: posterPath ?? this.posterPath,
+      rating: rating ?? this.rating,
+      releaseDate: releaseDate ?? this.releaseDate,
+      savedAt: savedAt ?? this.savedAt,
+    );
+  }
 }
