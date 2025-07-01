@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/042e3856-4cf8-4ab9-ac96-bebae7db5da4)# movie_listing_app
+# movie_listing_app
 
 A simple Flutter app to browse and search movies using the TMDb API.
 
